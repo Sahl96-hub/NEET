@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NEET Video Index</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root{
+  --paper:#F6F5F0;
+  --ink:#161B22;
+  --line:#D9D6C9;
+  --blue:#2F5D9E;
+  --green:#3D7A5C;
+  --rose:#A6425A;
+  --muted:#6B7078;
+  --card:#FFFFFF;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px),
+    var(--paper);
+  background-size: 28px 28px;
+  color:var(--ink);
+  font-family:'IBM Plex Sans', sans-serif;
+  min-height:100vh;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px;}
+
+header{
+  border:1px solid var(--ink);
+  background:var(--card);
+  padding:22px 24px;
+  position:relative;
+  margin-bottom:22px;
+}
+header::before{
+  content:"NEET-NAV / REV.2026";
+  position:absolute; top:-11px; left:16px;
+  background:var(--paper);
+  padding:0 8px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.08em;
+  color:var(--muted);
+}
+h1{
+  font-family:'Space Grotesk', sans-serif;
+  font-size:clamp(24px,4vw,34px);
+  font-weight:700;
+  margin:6px 0 4px;
+  letter-spacing:-0.01em;
+}
+.sub{
+  font-size:13.5px;
+  color:var(--muted);
+  line-height:1.5;
+  max-width:640px;
+}
+.legend{
+  display:flex; gap:18px; margin-top:14px; flex-wrap:wrap;
+  font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--muted);
+}
+.legend span{display:flex; align-items:center; gap:6px;}
+.dot{width:9px;height:9px;border-radius:1px;display:inline-block;}
+
+.tabs{
+  display:flex; gap:2px; margin-bottom:18px;
+  border:1px solid var(--ink); background:var(--ink);
+}
+.tab{
+  flex:1; text-align:center; padding:13px 10px; cursor:pointer;
+  background:var(--card); color:var(--muted);
+  font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:14.5px;
+  transition:background .15s, color .15s;
+  user-select:none;
+}
+.tab.active{color:#fff;}
+.tab[data-s="physics"].active{background:var(--blue);}
+.tab[data-s="chemistry"].active{background:var(--green);}
+.tab[data-s="biology"].active{background:var(--rose);}
+.tab .count{display:block; font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:400; margin-top:2px; opacity:.75;}
+
+.progressbar{
+  height:6px; background:var(--line); border:1px solid var(--ink); margin-bottom:22px; overflow:hidden;
+}
+.progressbar > div{height:100%; transition:width .3s;}
+
+.branch-label{
+  font-family:'IBM Plex Mono', monospace; font-size:11.5px; letter-spacing:.1em;
+  color:var(--muted); text-transform:uppercase; margin:22px 0 10px; padding-top:14px; border-top:1px dashed var(--line);
+}
+.branch-label:first-child{border-top:none; margin-top:0;}
+
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px;}
+
+.card{
+  border:1px solid var(--ink); background:var(--card);
+  padding:14px 14px 12px; position:relative; display:flex; flex-direction:column; gap:10px;
+}
+.card.done{background:#FBFAF6;}
+.card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:8px;}
+.chnum{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--muted);}
+.cname{font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:15.5px; line-height:1.25; margin-top:2px;}
+.check{
+  width:19px; height:19px; border:1.5px solid var(--ink); flex-shrink:0; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; font-size:12px; margin-top:1px;
+  background:var(--card);
+}
+.check.checked{background:var(--ink); color:var(--paper);}
+
+.linkrow{display:flex; flex-direction:column; gap:6px; margin-top:2px;}
+.linkbtn{
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  border:1px solid var(--line); padding:7px 9px; font-size:12.5px; text-decoration:none; color:var(--ink);
+  font-family:'IBM Plex Sans', sans-serif;
+  transition:border-color .15s, background .15s;
+}
+.linkbtn:hover{border-color:var(--ink); background:var(--paper);}
+.linkbtn .arrow{font-family:'IBM Plex Mono',monospace; color:var(--muted); font-size:11px;}
+.linkbtn.primary{border-color:var(--ink); font-weight:500;}
+
+footer{
+  margin-top:36px; padding-top:16px; border-top:1px solid var(--line);
+  font-size:12px; color:var(--muted); line-height:1.6;
+}
+footer b{color:var(--ink);}
+
+@media (max-width:600px){
+  .tabs{flex-direction:column;}
+  .tab{display:flex; justify-content:space-between; align-items:center; text-align:left;}
+  .tab .count{margin-top:0;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>NEET Video Index</h1>
+    <p class="sub">A chapter-by-chapter map of the NEET UG (NCERT Class 11 + 12) syllabus, each linked to live YouTube searches curated to well-established NEET prep channels. Tap a chapter's links to open YouTube directly &mdash; then use YouTube's own <b>Filters &rarr; Sort by view count</b> to surface the most-watched video for that exact topic.</p>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--blue)"></span>Physics</span>
+      <span><span class="dot" style="background:var(--green)"></span>Chemistry</span>
+      <span><span class="dot" style="background:var(--rose)"></span>Biology</span>
+    </div>
+  </header>
+
+  <div class="tabs" id="tabs"></div>
+  <div class="progressbar"><div id="progFill" style="width:0%; background:var(--ink);"></div></div>
+  <div id="content"></div>
+
+  <footer id="footerNote">Loading progress&hellip;</footer>
+</div>
+
+<script>
+const SUBJECTS = {
+  physics: {
+    label: "Physics", accent: "#2F5D9E",
+    channels: ["Physics Wallah", "Unacademy NEET", "ATP STAR"],
+    chapters: [
+      "Units, Dimensions & Measurement","Kinematics","Laws of Motion","Work, Energy & Power",
+      "System of Particles & Rotational Motion","Gravitation","Mechanical Properties of Solids & Fluids",
+      "Thermal Properties & Thermodynamics","Kinetic Theory of Gases","Oscillations","Waves",
+      "Electrostatics","Current Electricity","Magnetic Effects of Current & Magnetism",
+      "Electromagnetic Induction & Alternating Current","Electromagnetic Waves","Ray Optics & Optical Instruments",
+      "Wave Optics","Dual Nature of Radiation & Matter","Atoms & Nuclei","Semiconductor Electronics"
+    ]
+  },
+  chemistry: {
+    label: "Chemistry", accent: "#3D7A5C",
+    channels: ["Physics Wallah", "Unacademy NEET", "Vedantu NEET"],
+    branches: {
+      "Physical Chemistry": ["Some Basic Concepts of Chemistry","Atomic Structure","Chemical Bonding & Molecular Structure",
+        "States of Matter (Gaseous & Liquid)","Chemical Thermodynamics","Equilibrium (Ionic & Chemical)",
+        "Redox Reactions","Electrochemistry","Chemical Kinetics","Solutions"],
+      "Inorganic Chemistry": ["Classification of Elements & Periodicity","Hydrogen","s-Block Elements",
+        "p-Block Elements","d- and f-Block Elements","Coordination Compounds",
+        "General Principles of Isolation of Metals","Environmental Chemistry"],
+      "Organic Chemistry": ["Purification & Characterisation of Organic Compounds","Basic Principles of Organic Chemistry",
+        "Hydrocarbons","Haloalkanes & Haloarenes","Alcohols, Phenols & Ethers","Aldehydes, Ketones & Carboxylic Acids",
+        "Organic Compounds Containing Nitrogen (Amines)","Biomolecules","Polymers","Chemistry in Everyday Life"]
+    }
+  },
+  biology: {
+    label: "Biology", accent: "#A6425A",
+    channels: ["NEETprep", "Unacademy NEET", "Physics Wallah Biology"],
+    branches: {
+      "Diversity in the Living World": ["The Living World","Biological Classification","Plant Kingdom","Animal Kingdom"],
+      "Structural Organisation": ["Morphology of Flowering Plants","Anatomy of Flowering Plants","Structural Organisation in Animals"],
+      "Cell Biology & Biomolecules": ["Cell: The Unit of Life","Biomolecules","Cell Cycle and Cell Division"],
+      "Plant Physiology": ["Transport in Plants","Mineral Nutrition","Photosynthesis in Higher Plants",
+        "Respiration in Plants","Plant Growth and Development"],
+      "Human Physiology": ["Digestion and Absorption","Breathing and Exchange of Gases","Body Fluids and Circulation",
+        "Excretory Products and their Elimination","Locomotion and Movement","Neural Control and Coordination",
+        "Chemical Coordination and Integration"],
+      "Reproduction": ["Reproduction in Organisms","Sexual Reproduction in Flowering Plants","Human Reproduction","Reproductive Health"],
+      "Genetics & Evolution": ["Principles of Inheritance and Variation","Molecular Basis of Inheritance","Evolution"],
+      "Biology & Human Welfare": ["Human Health and Disease","Strategies for Enhancement in Food Production","Microbes in Human Welfare"],
+      "Biotechnology": ["Biotechnology: Principles and Processes","Biotechnology and its Applications"],
+      "Ecology & Environment": ["Organisms and Populations","Ecosystem","Biodiversity and Conservation","Environmental Issues"]
+    }
+  }
+};
+
+const YT = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+
+let progress = {};
+let active = "physics";
+
+function chapterId(subject, name){
+  return subject + "::" + name;
+}
+
+function buildCard(subject, name){
+  const s = SUBJECTS[subject];
+  const id = chapterId(subject, name);
+  const done = !!progress[id];
+  const ch1 = s.channels[0], ch2 = s.channels[1];
+  return `
+  <div class="card ${done ? 'done' : ''}" data-id="${id}">
+    <div class="card-top">
+      <div>
+        <div class="chnum">${s.label.toUpperCase()}</div>
+        <div class="cname">${name}</div>
+      </div>
+      <div class="check ${done ? 'checked' : ''}" onclick="toggleDone('${id.replace(/'/g,"\\'")}')">${done ? '&#10003;' : ''}</div>
+    </div>
+    <div class="linkrow">
+      <a class="linkbtn primary" target="_blank" href="${YT(name + ' NEET NCERT one shot')}">
+        <span>One-shot concept video</span><span class="arrow">&rarr;</span>
+      </a>
+      <a class="linkbtn" target="_blank" href="${YT(name + ' NEET ' + ch1)}">
+        <span>${ch1}</span><span class="arrow">&rarr;</span>
+      </a>
+      <a class="linkbtn" target="_blank" href="${YT(name + ' NEET ' + ch2)}">
+        <span>${ch2}</span><span class="arrow">&rarr;</span>
+      </a>
+      <a class="linkbtn" target="_blank" href="${YT(name + ' NEET PYQ MCQ solved')}">
+        <span>Solved previous-year MCQs</span><span class="arrow">&rarr;</span>
+      </a>
+    </div>
+  </div>`;
+}
+
+function render(){
+  const tabsEl = document.getElementById("tabs");
+  tabsEl.innerHTML = Object.keys(SUBJECTS).map(key=>{
+    const s = SUBJECTS[key];
+    const total = s.chapters ? s.chapters.length : Object.values(s.branches).flat().length;
+    const doneCount = countDone(key);
+    return `<div class="tab ${active===key?'active':''}" data-s="${key}" onclick="setActive('${key}')">
+      ${s.label}<span class="count">${doneCount}/${total} watched</span>
+    </div>`;
+  }).join("");
+
+  const content = document.getElementById("content");
+  const s = SUBJECTS[active];
+  if(s.chapters){
+    content.innerHTML = `<div class="grid">${s.chapters.map(c=>buildCard(active,c)).join("")}</div>`;
+  } else {
+    content.innerHTML = Object.entries(s.branches).map(([branch, list])=>`
+      <div class="branch-label">${branch}</div>
+      <div class="grid">${list.map(c=>buildCard(active,c)).join("")}</div>
+    `).join("");
+  }
+
+  const allTotal = Object.keys(SUBJECTS).reduce((acc,k)=>{
+    const s2 = SUBJECTS[k];
+    return acc + (s2.chapters ? s2.chapters.length : Object.values(s2.branches).flat().length);
+  },0);
+  const allDone = Object.keys(progress).filter(k=>progress[k]).length;
+  document.getElementById("progFill").style.width = Math.round((allDone/allTotal)*100) + "%";
+  document.getElementById("footerNote").innerHTML =
+    `<b>${allDone} / ${allTotal}</b> chapters marked watched across the full syllabus. Progress is saved to your account and persists next time you open this. ` +
+    `Links open a live YouTube search &mdash; nothing is pre-selected or hosted here, so results always reflect YouTube's current top videos for that exact topic.`;
+}
+
+function countDone(subject){
+  const s = SUBJECTS[subject];
+  const names = s.chapters ? s.chapters : Object.values(s.branches).flat();
+  return names.filter(n=>progress[chapterId(subject,n)]).length;
+}
+
+function setActive(key){
+  active = key;
+  render();
+}
+
+async function toggleDone(id){
+  progress[id] = !progress[id];
+  render();
+  try{
+    await window.storage.set('neet-nav-progress', JSON.stringify(progress), false);
+  }catch(e){ console.error("storage save failed", e); }
+}
+
+async function loadProgress(){
+  try{
+    const res = await window.storage.get('neet-nav-progress', false);
+    if(res && res.value){ progress = JSON.parse(res.value); }
+  }catch(e){ /* no saved progress yet */ }
+  render();
+}
+
+loadProgress();
+</script>
+</body>
+</html>
